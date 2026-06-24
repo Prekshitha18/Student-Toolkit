@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFF7EE;
+    --bg-soft:#FFEFDC;
+    --ink:#3A2E2A;
+    --ink-soft:#8A7B6E;
+    --coral:#FF7A59;
+    --coral-dark:#E85F3F;
+    --teal:#2BA89A;
+    --yellow:#FFC857;
+    --lavender:#9C8CD8;
+    --card:#FFFFFF;
+    --shadow: 0 4px 14px rgba(58,46,42,0.07);
+    --shadow-hover: 0 6px 18px rgba(58,46,42,0.12);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 8% 12%, rgba(255,200,87,0.18), transparent 40%),
+      radial-gradient(circle at 92% 88%, rgba(43,168,154,0.14), transparent 40%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Nunito', sans-serif;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:48px 24px 80px;
+  }
+  header.top{
+    margin-bottom:32px;
+  }
+  .eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    color:var(--coral-dark);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:44px;
+    margin:0;
+    line-height:1.1;
+    color:var(--ink);
+  }
+  .sub{
+    font-size:16px;
+    color:var(--ink-soft);
+    margin-top:10px;
+    max-width:480px;
+    line-height:1.5;
+  }
+  nav.tabs{
+    display:flex;
+    gap:8px;
+    margin:32px 0 24px;
+    border-bottom:none;
+    background:var(--bg-soft);
+    padding:6px;
+    border-radius:16px;
+  }
+  nav.tabs button{
+    font-family:'Baloo 2', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0;
+    background:none;
+    border:none;
+    padding:10px 18px;
+    cursor:pointer;
+    color:var(--ink-soft);
+    position:relative;
+    top:0;
+    border-radius:12px;
+    flex:1;
+    transition:all .15s;
+  }
+  nav.tabs button.active{
+    color:#fff;
+    background:var(--coral);
+    border-bottom:none;
+    box-shadow:var(--shadow);
+  }
+  nav.tabs button:hover:not(.active){
+    background:rgba(255,255,255,0.6);
+    color:var(--ink);
+  }
+  nav.tabs button:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible{
+    outline:3px solid var(--lavender);
+    outline-offset:2px;
+  }
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+  .card{
+    background:var(--card);
+    border:none;
+    border-radius:20px;
+    padding:24px;
+    box-shadow:var(--shadow);
+    margin-bottom:20px;
+    transition:box-shadow .2s;
+  }
+  .card:hover{box-shadow:var(--shadow-hover);}
+  .card h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:21px;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  label{
+    display:block;
+    font-size:13px;
+    font-family:'Nunito', sans-serif;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+    margin-top:14px;
+  }
+  label:first-of-type{margin-top:0;}
+  input, select{
+    width:100%;
+    padding:11px 14px;
+    border:2px solid var(--bg-soft);
+    background:var(--bg);
+    font-family:'Nunito', sans-serif;
+    font-size:14px;
+    border-radius:12px;
+    transition:border-color .15s;
+  }
+  input:focus, select:focus{
+    border-color:var(--coral);
+    background:#fff;
+  }
+  .row{display:flex; gap:12px;}
+  .row > div{flex:1;}
+  button.action{
+    font-family:'Baloo 2', sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:0;
+    background:var(--coral);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    margin-top:18px;
+    cursor:pointer;
+    border-radius:14px;
+    transition:transform .12s, background .15s;
+    box-shadow:0 3px 0 var(--coral-dark);
+  }
+  button.action:hover{background:var(--coral-dark); transform:translateY(1px);}
+  button.action:active{transform:translateY(3px); box-shadow:none;}
+  button.ghost{
+    background:var(--bg-soft);
+    border:none;
+    color:var(--ink);
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    padding:8px 16px;
+    cursor:pointer;
+    border-radius:12px;
+    transition:background .15s;
+  }
+  button.ghost:hover{background:var(--yellow);}
+
+  table{width:100%; border-collapse:collapse; margin-top:6px;}
+  th{
+    font-family:'Nunito', sans-serif;
+    font-size:12px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    text-align:left;
+    padding:8px 10px;
+    border-bottom:2px solid var(--bg-soft);
+  }
+  td{
+    padding:10px 10px;
+    border-bottom:1px solid var(--bg-soft);
+    font-size:14px;
+  }
+  tr:hover td{background:var(--bg-soft);}
+  td.num, th.num{text-align:right; font-family:'Nunito', sans-serif;}
+  .remove-btn{
+    background:none; border:none; color:var(--ink-soft); cursor:pointer; font-size:16px;
+    border-radius:8px; padding:2px 6px;
+  }
+  .remove-btn:hover{color:#fff; background:var(--coral);}
+
+  .gpa-display{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-top:20px;
+    padding-top:16px;
+    border-top:2px dashed var(--bg-soft);
+  }
+  .gpa-number{
+    font-family:'Baloo 2', sans-serif;
+    font-size:52px;
+    font-weight:800;
+    color:var(--coral);
+    line-height:1;
+  }
+  .gpa-label{font-size:14px; color:var(--ink-soft); font-weight:700;}
+  .feedback{
+    font-size:14px;
+    margin-top:10px;
+    color:var(--teal);
+    font-weight:700;
+    font-style:normal;
+  }
+  .empty{
+    color:var(--ink-soft);
+    font-size:14px;
+    font-style:normal;
+    padding:12px 0;
+    text-align:center;
+  }
+
+  /* Flashcards */
+  .flash-stage{
+    perspective:1000px;
+    margin-top:8px;
+  }
+  .flash-card{
+    background:linear-gradient(145deg, #fff, var(--bg-soft));
+    border:2px solid var(--bg-soft);
+    border-radius:18px;
+    min-height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:28px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:600;
+    font-size:21px;
+    cursor:pointer;
+    position:relative;
+    transition:transform .12s, box-shadow .12s;
+    box-shadow:var(--shadow);
+  }
+  .flash-card:hover{transform:translateY(-2px); box-shadow:var(--shadow-hover);}
+  .flash-card .tag{
+    position:absolute;
+    top:12px;
+    left:16px;
+    font-family:'Nunito', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.03em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .flash-card.answer{background:linear-gradient(145deg, #FFF7EE, #FFE8D1); border-color:var(--yellow);}
+  .quiz-controls{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:16px;
+  }
+  .quiz-controls .grade-btns{display:flex; gap:10px;}
+  .pill{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:8px 16px;
+    border-radius:20px;
+    border:none;
+    cursor:pointer;
+    transition:transform .12s;
+  }
+  .pill:hover{transform:translateY(-1px);}
+  .pill.correct{background:var(--teal); color:#fff;}
+  .pill.correct:hover{background:#249287;}
+  .pill.wrong{background:var(--bg-soft); color:var(--coral-dark);}
+  .pill.wrong:hover{background:#FFE0D6;}
+  .progress-track{
+    font-family:'Nunito', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+  .mastery-bar{
+    display:inline-block;
+    width:48px;
+    height:8px;
+    background:var(--bg-soft);
+    border-radius:8px;
+    position:relative;
+    overflow:hidden;
+    vertical-align:middle;
+    margin-right:6px;
+  }
+  .mastery-bar > span{
+    position:absolute; left:0; top:0; bottom:0;
+    background:var(--teal);
+    border-radius:8px;
+  }
+
+  /* Pomodoro */
+  .timer-display{
+    font-family:'Baloo 2', sans-serif;
+    font-size:76px;
+    font-weight:800;
+    text-align:center;
+    margin:16px 0 4px;
+    color:var(--ink);
+    letter-spacing:0.01em;
+  }
+  .timer-phase{
+    text-align:center;
+    font-family:'Baloo 2', sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--coral);
+  }
+  .timer-cycles{
+    text-align:center;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:8px;
+    font-weight:700;
+  }
+  .timer-controls{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:20px;
+  }
+  .dots{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:16px;
+  }
+  .dots .dot{
+    width:11px; height:11px; border-radius:50%;
+    background:var(--bg-soft);
+    transition:background .2s;
+  }
+  .dots .dot.done{background:var(--teal);}
+  .dots .dot.current{background:var(--coral);}
+
+  footer{
+    text-align:center;
+    font-family:'Nunito', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink-soft);
+    margin-top:44px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow">👋 Hey there!</p>
+    <h1>Student Toolkit</h1>
+    <p class="sub">Your friendly study sidekick — track your GPA, breeze through flashcards, and stay focused with timed study sprints. Everything saves right here automatically. ✨</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="gpa">📊 GPA</button>
+    <button class="tab-btn" data-tab="cards">🗂️ Flashcards</button>
+    <button class="tab-btn" data-tab="timer">⏱️ Pomodoro</button>
+  </nav>
+
+  <!-- ===================== GPA PANEL ===================== -->
+  <section class="panel active" id="panel-gpa">
+    <div class="card">
+      <h2>➕ Add a course</h2>
+      <div class="row">
+        <div>
+          <label for="course-name">Course name</label>
+          <input id="course-name" type="text" placeholder="Calculus I">
+        </div>
+        <div style="max-width:110px">
+          <label for="course-credits">Credits</label>
+          <input id="course-credits" type="number" min="0.5" step="0.5" placeholder="4">
+        </div>
+        <div style="max-width:110px">
+          <label for="course-grade">Grade</label>
+          <select id="course-grade">
+            <option>A+</option><option selected>A</option><option>A-</option>
+            <option>B+</option><option>B</option><option>B-</option>
+            <option>C+</option><option>C</option><option>C-</option>
+            <option>D+</option><option>D</option><option>F</option>
+          </select>
+        </div>
+      </div>
+      <button class="action" id="add-course-btn">Add course</button>
+    </div>
+
+    <div class="card">
+      <h2>🎓 Your courses</h2>
+      <div id="course-table-wrap">
+        <p class="empty">No courses yet — add your first one above to see your GPA! 📈</p>
+      </div>
+      <div class="gpa-display" id="gpa-display" style="display:none;">
+        <span class="gpa-number" id="gpa-number">0.00</span>
+        <span class="gpa-label">/ 4.0 GPA</span>
+      </div>
+      <p class="feedback" id="gpa-feedback"></p>
+    </div>
+  </section>
+
+  <!-- ===================== FLASHCARDS PANEL ===================== -->
+  <section class="panel" id="panel-cards">
+    <div class="card">
+      <h2>✏️ Add a flashcard</h2>
+      <label for="card-q">Question</label>
+      <input id="card-q" type="text" placeholder="What is the capital of France?">
+      <label for="card-a">Answer</label>
+      <input id="card-a" type="text" placeholder="Paris">
+      <button class="action" id="add-card-btn">Add card</button>
+    </div>
+
+    <div class="card" id="quiz-card" style="display:none;">
+      <h2>🧠 Quiz time!</h2>
+      <div class="flash-stage">
+        <div class="flash-card" id="flash-face">
+          <span class="tag">tap to reveal answer</span>
+          <span id="flash-text"></span>
+        </div>
+      </div>
+      <div class="quiz-controls">
+        <span class="progress-track" id="quiz-progress">1 / 1</span>
+        <div class="grade-btns" id="grade-btns" style="display:none;">
+          <button class="pill wrong" id="mark-wrong">😅 Missed it</button>
+          <button class="pill correct" id="mark-correct">🎉 Got it!</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="margin:0;">📚 Your deck</h2>
+        <button class="ghost" id="start-quiz-btn">Start quiz</button>
+      </div>
+      <div id="deck-table-wrap" style="margin-top:12px;">
+        <p class="empty">No cards yet — add your first one above to start studying! 🌟</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POMODORO PANEL ===================== -->
+  <section class="panel" id="panel-timer">
+    <div class="card">
+      <h2>🎯 Set up your sprint</h2>
+      <div class="row">
+        <div>
+          <label for="focus-min">Focus (min)</label>
+          <input id="focus-min" type="number" min="1" value="25">
+        </div>
+        <div>
+          <label for="break-min">Break (min)</label>
+          <input id="break-min" type="number" min="1" value="5">
+        </div>
+        <div>
+          <label for="cycle-count">Cycles</label>
+          <input id="cycle-count" type="number" min="1" value="4">
+        </div>
+      </div>
+
+      <div class="timer-phase" id="timer-phase">🍅 FOCUS</div>
+      <div class="timer-display" id="timer-display">25:00</div>
+      <div class="timer-cycles" id="timer-cycles">Cycle 1 of 4</div>
+      <div class="dots" id="timer-dots"></div>
+
+      <div class="timer-controls">
+        <button class="action" id="timer-start-btn">Start</button>
+        <button class="ghost" id="timer-reset-btn">Reset</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>💾 Saved automatically in this browser — no account needed.</footer>
+</div>
+
+<script>
+/* ============ Storage helpers (in-memory + localStorage) ============ */
+const STORAGE = {
+  courses: 'toolkit_courses',
+  cards: 'toolkit_cards',
+};
+
+function loadJSON(key, fallback){
+  try{
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  }catch(e){ return fallback; }
+}
+function saveJSON(key, value){
+  try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){}
+}
+
+/* ============ Tabs ============ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ============ GPA Tracker ============ */
+const GRADE_POINTS = {
+  'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,
+  'C+':2.3,'C':2.0,'C-':1.7,'D+':1.3,'D':1.0,'F':0.0
+};
+
+let courses = loadJSON(STORAGE.courses, []);
+
+function renderCourses(){
+  const wrap = document.getElementById('course-table-wrap');
+  const gpaDisplay = document.getElementById('gpa-display');
+  const feedback = document.getElementById('gpa-feedback');
+
+  if(courses.length === 0){
+    wrap.innerHTML = '<p class="empty">No courses yet — add your first one above.</p>';
+    gpaDisplay.style.display = 'none';
+    feedback.textContent = '';
+    return;
+  }
+
+  let rows = '';
+  let totalCredits = 0, totalPoints = 0;
+  courses.forEach((c, i) => {
+    const pts = GRADE_POINTS[c.grade] * c.credits;
+    totalCredits += c.credits;
+    totalPoints += pts;
+    rows += `<tr>
+      <td>${escapeHtml(c.name)}</td>
+      <td class="num">${c.credits}</td>
+      <td class="num">${c.grade}</td>
+      <td class="num">${pts.toFixed(2)}</td>
+      <td class="num"><button class="remove-btn" data-idx="${i}" title="Remove">✕</button></td>
+    </tr>`;
+  });
+
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Course</th><th class="num">Credits</th><th class="num">Grade</th><th class="num">Points</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+
+  wrap.querySelectorAll('.remove-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      courses.splice(parseInt(b.dataset.idx), 1);
+      saveJSON(STORAGE.courses, courses);
+      renderCourses();
+    });
+  });
+
+  const gpa = totalCredits > 0 ? totalPoints / totalCredits : 0;
+  gpaDisplay.style.display = 'flex';
+  document.getElementById('gpa-number').textContent = gpa.toFixed(2);
+
+  if(gpa >= 3.5) feedback.textContent = "🌟 Amazing! You're basically Dean's List material.";
+  else if(gpa >= 3.0) feedback.textContent = '👍 Solid GPA — keep up the great work!';
+  else if(gpa >= 2.0) feedback.textContent = "💪 You're passing — a little more effort and you'll see it climb.";
+  else feedback.textContent = "🤝 This one's tough — maybe loop in an advisor for support.";
+}
+
+function escapeHtml(s){
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+document.getElementById('add-course-btn').addEventListener('click', () => {
+  const name = document.getElementById('course-name').value.trim();
+  const credits = parseFloat(document.getElementById('course-credits').value);
+  const grade = document.getElementById('course-grade').value;
+
+  if(!name){ alert('Please enter a course name.'); return; }
+  if(!credits || credits <= 0){ alert('Please enter valid credit hours.'); return; }
+
+  courses.push({name, credits, grade});
+  saveJSON(STORAGE.courses, courses);
+  document.getElementById('course-name').value = '';
+  document.getElementById('course-credits').value = '';
+  renderCourses();
+});
+
+renderCourses();
+
+/* ============ Flashcards ============ */
+let cards = loadJSON(STORAGE.cards, []);
+let quizSession = [];
+let quizIndex = 0;
+let showingAnswer = false;
+
+function renderDeck(){
+  const wrap = document.getElementById('deck-table-wrap');
+  if(cards.length === 0){
+    wrap.innerHTML = '<p class="empty">No cards yet — add your first one above.</p>';
+    return;
+  }
+  let rows = '';
+  cards.forEach((c, i) => {
+    const conf = c.confidence || 0;
+    rows += `<tr>
+      <td>${escapeHtml(c.question)}</td>
+      <td>${escapeHtml(c.answer)}</td>
+      <td><span class="mastery-bar"><span style="width:${conf*20}%"></span></span>${conf}/5</td>
+      <td class="num"><button class="remove-btn" data-idx="${i}" title="Remove">✕</button></td>
+    </tr>`;
+  });
+  wrap.innerHTML = `<table>
+    <thead><tr><th>Question</th><th>Answer</th><th>Mastery</th><th></th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+  wrap.querySelectorAll('.remove-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      cards.splice(parseInt(b.dataset.idx), 1);
+      saveJSON(STORAGE.cards, cards);
+      renderDeck();
+    });
+  });
+}
+
+document.getElementById('add-card-btn').addEventListener('click', () => {
+  const q = document.getElementById('card-q').value.trim();
+  const a = document.getElementById('card-a').value.trim();
+  if(!q || !a){ alert('Please fill in both question and answer.'); return; }
+  cards.push({question:q, answer:a, confidence:0});
+  saveJSON(STORAGE.cards, cards);
+  document.getElementById('card-q').value = '';
+  document.getElementById('card-a').value = '';
+  renderDeck();
+});
+
+document.getElementById('start-quiz-btn').addEventListener('click', () => {
+  if(cards.length === 0){ alert('Add some flashcards first.'); return; }
+  // Prioritize non-mastered cards
+  quizSession = cards.filter(c => (c.confidence||0) < 5);
+  if(quizSession.length === 0) quizSession = cards.slice();
+  // shuffle
+  for(let i = quizSession.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [quizSession[i], quizSession[j]] = [quizSession[j], quizSession[i]];
+  }
+  quizIndex = 0;
+  showingAnswer = false;
+  document.getElementById('quiz-card').style.display = 'block';
+  renderQuizCard();
+});
+
+function renderQuizCard(){
+  const face = document.getElementById('flash-face');
+  const text = document.getElementById('flash-text');
+  const tag = face.querySelector('.tag');
+  const progress = document.getElementById('quiz-progress');
+  const gradeBtns = document.getElementById('grade-btns');
+
+  if(quizIndex >= quizSession.length){
+    text.textContent = '🎉 Session complete! Nice work.';
+    tag.textContent = 'done';
+    face.classList.remove('answer');
+    gradeBtns.style.display = 'none';
+    progress.textContent = `${quizSession.length} / ${quizSession.length}`;
+    return;
+  }
+
+  const current = quizSession[quizIndex];
+  showingAnswer = false;
+  face.classList.remove('answer');
+  tag.textContent = 'tap to reveal answer';
+  text.textContent = current.question;
+  progress.textContent = `${quizIndex+1} / ${quizSession.length}`;
+  gradeBtns.style.display = 'none';
+}
+
+document.getElementById('flash-face').addEventListener('click', () => {
+  if(quizIndex >= quizSession.length) return;
+  const face = document.getElementById('flash-face');
+  const text = document.getElementById('flash-text');
+  const tag = face.querySelector('.tag');
+  const current = quizSession[quizIndex];
+
+  if(!showingAnswer){
+    showingAnswer = true;
+    face.classList.add('answer');
+    tag.textContent = 'answer';
+    text.textContent = current.answer;
+    document.getElementById('grade-btns').style.display = 'flex';
+  }
+});
+
+function gradeCard(correct){
+  const current = quizSession[quizIndex];
+  const original = cards.find(c => c.question === current.question && c.answer === current.answer);
+  if(original){
+    original.confidence = original.confidence || 0;
+    if(correct) original.confidence = Math.min(5, original.confidence + 1);
+    else original.confidence = Math.max(0, original.confidence - 2);
+  }
+  saveJSON(STORAGE.cards, cards);
+  renderDeck();
+  quizIndex++;
+  renderQuizCard();
+}
+
+document.getElementById('mark-correct').addEventListener('click', () => gradeCard(true));
+document.getElementById('mark-wrong').addEventListener('click', () => gradeCard(false));
+
+renderDeck();
+
+/* ============ Pomodoro Timer ============ */
+let timerInterval = null;
+let isFocusPhase = true;
+let currentCycle = 1;
+let totalCycles = 4;
+let secondsLeft = 25 * 60;
+let isRunning = false;
+
+function formatTime(s){
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = (s%60).toString().padStart(2,'0');
+  return `${m}:${sec}`;
+}
+
+function renderTimer(){
+  document.getElementById('timer-display').textContent = formatTime(secondsLeft);
+  document.getElementById('timer-phase').textContent = isFocusPhase ? '🍅 FOCUS' : '☕ BREAK';
+  document.getElementById('timer-cycles').textContent = `Cycle ${currentCycle} of ${totalCycles}`;
+
+  const dotsWrap = document.getElementById('timer-dots');
+  dotsWrap.innerHTML = '';
+  for(let i = 1; i <= totalCycles; i++){
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    if(i < currentCycle) dot.classList.add('done');
+    else if(i === currentCycle) dot.classList.add('current');
+    dotsWrap.appendChild(dot);
+  }
+}
+
+function resetTimerState(){
+  totalCycles = parseInt(document.getElementById('cycle-count').value) || 4;
+  isFocusPhase = true;
+  currentCycle = 1;
+  secondsLeft = (parseInt(document.getElementById('focus-min').value) || 25) * 60;
+  renderTimer();
+}
+
+function tick(){
+  secondsLeft--;
+  if(secondsLeft < 0){
+    if(isFocusPhase){
+      isFocusPhase = false;
+      secondsLeft = (parseInt(document.getElementById('break-min').value) || 5) * 60;
+    } else {
+      currentCycle++;
+      if(currentCycle > totalCycles){
+        clearInterval(timerInterval);
+        isRunning = false;
+        document.getElementById('timer-start-btn').textContent = 'Start';
+        document.getElementById('timer-phase').textContent = '🎉 ALL DONE';
+        document.getElementById('timer-display').textContent = '🎉';
+        return;
+      }
+      isFocusPhase = true;
+      secondsLeft = (parseInt(document.getElementById('focus-min').value) || 25) * 60;
+    }
+  }
+  renderTimer();
+}
+
+document.getElementById('timer-start-btn').addEventListener('click', () => {
+  if(isRunning){
+    clearInterval(timerInterval);
+    isRunning = false;
+    document.getElementById('timer-start-btn').textContent = 'Start';
+  } else {
+    if(secondsLeft <= 0 && currentCycle === 1 && isFocusPhase){
+      resetTimerState();
+    }
+    isRunning = true;
+    document.getElementById('timer-start-btn').textContent = 'Pause';
+    timerInterval = setInterval(tick, 1000);
+  }
+});
+
+document.getElementById('timer-reset-btn').addEventListener('click', () => {
+  clearInterval(timerInterval);
+  isRunning = false;
+  document.getElementById('timer-start-btn').textContent = 'Start';
+  resetTimerState();
+});
+
+['focus-min','break-min','cycle-count'].forEach(id => {
+  document.getElementById(id).addEventListener('change', () => {
+    if(!isRunning) resetTimerState();
+  });
+});
+
+resetTimerState();
+</script>
+</body>
+</html>
